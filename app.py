@@ -1,4 +1,5 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi.responses import JSONResponse  # Add this import
 from typing import Dict
 import torch
 import torchvision.transforms as transforms
