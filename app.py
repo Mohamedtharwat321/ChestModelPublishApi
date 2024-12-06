@@ -6,13 +6,14 @@ import torchxrayvision as xrv
 import skimage.io
 import numpy as np
 import io
+import os  # To read environment variables
 
 app = FastAPI()
 
 # Load model
 weights = 'densenet121-res224-all'
 resize = True
-cuda = torch.cuda.is_available() #use GPU if it is avilable
+cuda = torch.cuda.is_available()  # Use GPU if it is available
 model = xrv.models.get_model(weights)
 if cuda:
     model = model.cuda()
@@ -60,3 +61,9 @@ async def predict(file: UploadFile = File(...)):
     predictions = predict_image(image)
     return predictions
 
+
+# Add this block to bind to the correct host and port
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.environ.get("PORT", 8000))  # Default to port 8000 if PORT is not set
+    uvicorn.run(app, host="0.0.0.0", port=port)
