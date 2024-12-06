@@ -54,15 +54,13 @@ def predict_image(image: np.ndarray) -> Dict[str, float]:
     return output
 
 
-# Define API endpoint
-@app.get("/")
-async def root():
-    return {"message": "Welcome to the X-ray Image Prediction API!"}
+
 
 @app.head("/")
 async def health_check():
     return JSONResponse(status_code=200)
-    
+
+# Define API endpoint
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
     # Load image file
